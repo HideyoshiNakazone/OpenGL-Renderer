@@ -7,6 +7,6 @@ find_package(OpenGL REQUIRED)
 add_subdirectory(vendors/glfw-3.3.9)
 add_subdirectory(vendors/glew-2.2.0/build/cmake)
 
-add_executable(opengl-course OpenGLCourse/main.cpp)
+add_executable(opengl-course OpenGLCourse/Application.cpp)
 
 target_link_libraries(opengl-course glfw glew OpenGL::GL)
