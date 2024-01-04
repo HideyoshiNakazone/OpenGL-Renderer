@@ -6,8 +6,10 @@ set(CMAKE_CXX_STANDARD 23)
 find_package(OpenGL REQUIRED)
 add_subdirectory(vendors/glfw-3.3.9)
 add_subdirectory(vendors/glew-2.2.0/build/cmake)
+add_subdirectory(vendors/stb_image)
 
-add_executable(opengl-course OpenGLCourse/src/Application.cpp
+add_executable(opengl-course
+        OpenGLCourse/src/Application.cpp
         OpenGLCourse/src/Renderer/Renderer.cpp
         OpenGLCourse/src/Renderer/Renderer.h
         OpenGLCourse/src/VertexBuffer/VertexBuffer.cpp
@@ -31,4 +33,4 @@ elseif(CMAKE_BUILD_TYPE MATCHES Release)
     target_compile_definitions(opengl-course PUBLIC DEBUG=0)
 endif()
 
-target_link_libraries(opengl-course glfw glew OpenGL::GL)
+target_link_libraries(opengl-course glfw glew stb::image OpenGL::GL)

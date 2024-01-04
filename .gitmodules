@@ -1,0 +1,3 @@
+[submodule "vendors/stb_image"]
+	path = vendors/stb_image
+	url = https://github.com/HideyoshiNakazone/stb-cmake.git
