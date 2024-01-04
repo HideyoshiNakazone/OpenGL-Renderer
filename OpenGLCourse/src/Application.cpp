@@ -5,6 +5,39 @@
 #include "GLFW/glfw3.h"
 
 
+struct ShaderProgramSource {
+    std::string VertexSource;
+    std::string FragmentSource;
+};
+
+
+static ShaderProgramSource ParseShader(const std::string& filePath) {
+    std::ifstream stream(filePath);
+
+    enum class ShaderType {
+        NONE = -1, VERTEX = 0, FRAGMENT = 1
+    };
+
+    std::string line;
+    std::stringstream ss[2];
+    ShaderType type = ShaderType::NONE;
+
+    while (getline(stream, line)) {
+        if (line.find("#shader") != std::string::npos) {
+            if (line.find("vertex") != std::string::npos) {
+                type = ShaderType::VERTEX;
+            } else if (line.find("fragment") != std::string::npos) {
+                type = ShaderType::FRAGMENT;
+            }
+        } else {
+            ss[(int) type] << line << '\n';
+        }
+    }
+
+    return { ss[0].str(), ss[1].str() };
+}
+
+
 static int CompileShader(unsigned int type, const std::string& source) {
     unsigned int id = glCreateShader(type);
     const char *src = source.c_str();
@@ -98,10 +131,12 @@ int main(void) {
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
     glEnableVertexAttribArray(0);
 
-    std::string fragmentShaderString = ReadShaderFromFile("OpenGLCourse/shaders/triangle-fragment.shader.gl");
-    std::string vertexShaderString = ReadShaderFromFile("OpenGLCourse/shaders/triangle-vertex.shader.gl");
+    auto shaderSource = ParseShader("OpenGLCourse/res/shaders/Basic.shader.gl");
 
-    unsigned int shader = CreateShader(vertexShaderString, fragmentShaderString);
+    unsigned int shader = CreateShader(
+        shaderSource.VertexSource,
+        shaderSource.FragmentSource
+    );
     glUseProgram(shader);
 
     /* Loop until the user closes the window */
