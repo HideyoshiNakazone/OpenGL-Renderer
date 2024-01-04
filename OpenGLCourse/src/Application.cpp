@@ -4,13 +4,13 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 
-#define ASSERT(x) if (!(x)) __builtin_trap();
+#define ASSERT(x) if (!(x)) __builtin_trap()
 
 
 #define GLCall( x ) \
     GLClearError(); \
     x; \
-    ASSERT(GLLogCall(#x, __FILE__, __LINE__));
+    ASSERT(GLLogCall(#x, __FILE__, __LINE__))
 
 #define GLCallV( x ) [&]() { \
     GLClearError(); \
@@ -113,7 +113,7 @@ static unsigned int CreateShader(const std::string& vertexShader, const std::str
     return program;
 }
 
-int main(void) {
+int main() {
     GLFWwindow *window;
 
     /* Initialize the library */
@@ -121,7 +121,7 @@ int main(void) {
         return -1;
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(640, 480, "Hello World", nullptr, nullptr);
     if (!window) {
         glfwTerminate();
         return -1;
@@ -129,6 +129,7 @@ int main(void) {
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
+    glfwSwapInterval(1);
 
     if (glewInit() != GLEW_OK) {
         std::cout << "Error on Initializing OpenGL Context" << std::endl;
@@ -154,7 +155,7 @@ int main(void) {
     GLCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
     GLCall(glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
 
-    GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
+    GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, nullptr));
     GLCall(glEnableVertexAttribArray(0));
 
     unsigned int ibo;
@@ -170,12 +171,27 @@ int main(void) {
     );
     GLCall(glUseProgram(shader));
 
+    int location = GLCallV(glGetUniformLocation(shader, "u_Color"));
+
+    ASSERT(location != -1);
+
+    float r = 0.0f;
+    float increment = 0.05f;
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
         /* Render here */
         GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
+        GLCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+
+        if (r > 1.0f) {
+            increment = -0.05f;
+        } else if (r < 0.0f) {
+            increment = 0.05f;
+        }
+
+        r += increment;
 
         /* Swap front and back buffers */
         GLCall(glfwSwapBuffers(window));
