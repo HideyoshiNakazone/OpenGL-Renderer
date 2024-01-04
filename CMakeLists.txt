@@ -8,8 +8,8 @@ add_subdirectory(vendors/glfw-3.3.9)
 add_subdirectory(vendors/glew-2.2.0/build/cmake)
 
 add_executable(opengl-course OpenGLCourse/src/Application.cpp
-        OpenGLCourse/src/Renderer.cpp
-        OpenGLCourse/src/Renderer.h
+        OpenGLCourse/src/Renderer/Renderer.cpp
+        OpenGLCourse/src/Renderer/Renderer.h
         OpenGLCourse/src/VertexBuffer/VertexBuffer.cpp
         OpenGLCourse/src/VertexBuffer/VertexBuffer.h
         OpenGLCourse/src/IndexBuffer/IndexBuffer.cpp
@@ -17,6 +17,8 @@ add_executable(opengl-course OpenGLCourse/src/Application.cpp
         OpenGLCourse/src/VertexBufferLayout/VertexBufferLayout.cpp
         OpenGLCourse/src/VertexBufferLayout/VertexBufferLayout.h
         OpenGLCourse/src/VertexArray/VertexArray.cpp
-        OpenGLCourse/src/VertexArray/VertexArray.h)
+        OpenGLCourse/src/VertexArray/VertexArray.h
+        OpenGLCourse/src/Shader/Shader.cpp
+        OpenGLCourse/src/Shader/Shader.h)
 
 target_link_libraries(opengl-course glfw glew OpenGL::GL)
