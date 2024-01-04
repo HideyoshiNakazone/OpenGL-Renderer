@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Utils/OpenGLHandler.h"
+
 
 class IndexBuffer
 {

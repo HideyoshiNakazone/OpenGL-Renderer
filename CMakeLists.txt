@@ -19,6 +19,16 @@ add_executable(opengl-course OpenGLCourse/src/Application.cpp
         OpenGLCourse/src/VertexArray/VertexArray.cpp
         OpenGLCourse/src/VertexArray/VertexArray.h
         OpenGLCourse/src/Shader/Shader.cpp
-        OpenGLCourse/src/Shader/Shader.h)
+        OpenGLCourse/src/Shader/Shader.h
+        OpenGLCourse/src/Utils/OpenGLHandler.h
+        OpenGLCourse/src/Utils/OpenGLHandler.h.cpp)
+
+
+
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+    target_compile_definitions(opengl-course PUBLIC DEBUG=1)
+elseif(CMAKE_BUILD_TYPE MATCHES Release)
+    target_compile_definitions(opengl-course PUBLIC DEBUG=0)
+endif()
 
 target_link_libraries(opengl-course glfw glew OpenGL::GL)

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Utils/OpenGLHandler.h"
+
 #include "../VertexBuffer/VertexBuffer.h"
 #include "../VertexBufferLayout/VertexBufferLayout.h"
 
